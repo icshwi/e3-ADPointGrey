@@ -5,11 +5,11 @@ EPICS_MODULE_NAME:=ADPointGrey
 # *) master branch 
 #    export EPICS_MODULE_TAG:=master
 # *) individual hash 
-export EPICS_MODULE_TAG:=tags/R2-5
+export EPICS_MODULE_TAG:=tags/R2-6
 export EPICS_MODULE_SRC_PATH:=ADPointGrey
 export ESS_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
 export PROJECT:=$(EPICS_MODULE_NAME)
-export LIBVERSION:=2.5.0
+export LIBVERSION:=2.6.0
 export E3_ENV_PATH:=e3-env
 export E3_ENV_NAME:=e3-env
 #export E3_ENV_NAME:=E3_ENV_CONF

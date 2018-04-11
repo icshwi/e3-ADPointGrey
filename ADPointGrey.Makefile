@@ -25,91 +25,63 @@
 # Please look at many other _module_.Makefile in e3-* repository
 # 
 
-#where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include $(REQUIRE_TOOLS)/driver.makefile
 
-# APP:=calcApp
-# APPDB:=$(APP)/Db
-# APPSRC:=$(APP)/src
+SUPPORT:=pointGreySupport
+
+APP:=pointGreyApp
+APPDB:=$(APP)/Db
+APPSRC:=$(APP)/src
 
 
-# USR_INCLUDES += -I$(where_am_I)/$(APPSRC)
+## We will use XML2 as the system lib, instead of ADSupport
+## Do we need to load libxml2 when we start iocsh?
 
-# USR_CFLAGS   += -Wno-unused-variable
-# USR_CFLAGS   += -Wno-unused-function
-# USR_CFLAGS   += -Wno-unused-but-set-variable
-# USR_CPPFLAGS += -Wno-unused-variable
-# USR_CPPFLAGS += -Wno-unused-function
-# USR_CPPFLAGS += -Wno-unused-but-set-variable
-
-# TEMPLATES += $(wildcard $(APPDB)/*.db)
-
-# DBDINC_SRCS += $(APPSRC)/swaitRecord.c
-# DBDINC_SRCS += $(APPSRC)/sseqRecord.c
-# DBDINC_SRCS += $(APPSRC)/aCalcoutRecord.c
-# DBDINC_SRCS += $(APPSRC)/sCalcoutRecord.c
-# DBDINC_SRCS += $(APPSRC)/transformRecord.c
-
-# DBDINC_DBDS = $(subst .c,.dbd,   $(DBDINC_SRCS:$(APPSRC)/%=%))
-# DBDINC_HDRS = $(subst .c,.h,     $(DBDINC_SRCS:$(APPSRC)/%=%))
-# DBDINC_DEPS = $(subst .c,$(DEP), $(DBDINC_SRCS:$(APPSRC)/%=%))
+USR_INCLUDES += -I/usr/include/libxml2
+LIB_SYS_LIBS += xml2	
 
 
-# HEADERS += $(APPSRC)/sCalcPostfix.h
-# HEADERS += $(APPSRC)/aCalcPostfix.h
-# HEADERS += $(DBDINC_HDRS)
+
+DBDS += $(APPSRC)/pointGreySupport.dbd
 
 
-# SOURCES += $(APPSRC)/sCalcPostfix.c
-# SOURCES += $(APPSRC)/sCalcPerform.c
-# SOURCES += $(APPSRC)/aCalcPostfix.c
-# SOURCES += $(APPSRC)/aCalcPerform.c
-
-# SOURCES += $(APPSRC)/calcUtil.c
-# SOURCES += $(APPSRC)/myFreeListLib.c
-# SOURCES += $(APPSRC)/devsCalcoutSoft.c
-# SOURCES += $(APPSRC)/devaCalcoutSoft.c
-# SOURCES += $(APPSRC)/subAve.c
-# SOURCES += $(APPSRC)/swaitRecord.c
-# SOURCES += $(APPSRC)/editSseq.st
-# SOURCES += $(APPSRC)/interp.c
-# SOURCES += $(APPSRC)/arrayTest.c
-# SOURCES += $(APPSRC)/aCalcMonitorMem.c
-# # DBDINC_SRCS should be last of the series of SOURCES
-# SOURCES += $(DBDINC_SRCS)
-
-# DBDS += $(APPSRC)/calcSupport_LOCAL.dbd
-# DBDS += $(APPSRC)/calcSupport_withSNCSEQ.dbd
-# DBDS += $(APPSRC)/calcSupport_withSSCAN.dbd
+SOURCES += $(APPSRC)/pointGrey.cpp
 
 
-# $(DBDINC_DEPS): $(DBDINC_HDRS)
-
-# .dbd.h:
-# 	$(DBTORECORDTYPEH)  $(USR_DBDFLAGS) -o  $<
+## PointGreySupport
 
 
-# The following lines could be useful if one uses the external lib
-#
-# Examples...
-# 
-# USR_CFLAGS += -fPIC
-# USR_CFLAGS   += -DDEBUG_PRINT
-# USR_CPPFLAGS += -DDEBUG_PRINT
-# USR_CPPFLAGS += -DUSE_TYPED_RSET
-# USR_INCLUDES += -I/usr/include/libusb-1.0
-# USR_LDFLAGS += -lusb-1.0
-# USR_LDFLAGS += -L /opt/etherlab/lib
-# USR_LDFLAGS += -lethercat
-# USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
-
-## SYSTEM LIBS 
-##
-# USR_LIBS += boost_regex
-# USR_LIBS += readline
-# USR_LIBS += xml2
-
-#
+HEADERS += $(SUPPORT)/AVIRecorder.h
+HEADERS += $(SUPPORT)/BusManager.h
+HEADERS += $(SUPPORT)/Camera.h
+HEADERS += $(SUPPORT)/CameraBase.h
+HEADERS += $(SUPPORT)/Error.h
+HEADERS += $(SUPPORT)/FlyCapture2.h
+HEADERS += $(SUPPORT)/FlyCapture2Defs.h
+HEADERS += $(SUPPORT)/FlyCapture2Platform.h
+HEADERS += $(SUPPORT)/GigECamera.h
+HEADERS += $(SUPPORT)/Image.h
+HEADERS += $(SUPPORT)/ImageStatistics.h
+HEADERS += $(SUPPORT)/TopologyNode.h
+HEADERS += $(SUPPORT)/Utilities.h
 
 
+
+# We don't have LIB_INSTALLS, so will tackle later
+ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so
+LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
+LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.8.3.1
+endif
+
+
+
+
+
+
+TEMPLATES += $(APPDB)/pointGrey.template
+TEMPLATES += $(APPDB)/pointGreyProperty.template
+TEMPLATES += $(APPDB)/pointGreyGigEProperty.template
