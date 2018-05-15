@@ -8,7 +8,7 @@
 # PINI_VALB should only be set to YES for the WhiteBalance property in color cameras 
 # that support WhiteBalance.
 
-file "$(ADPOINTGREY)/db/pointGreyProperty.template" 
+file "pointGreyProperty.template" 
 { 
 pattern
 {    P,     R,   PORT,     PROPERTY,     N, PINI, PINI_VALB, PINI_ABS, PHAS }
@@ -34,7 +34,7 @@ pattern
 { PG1:, cam1:,    PG1,  Temperature,    17,   NO,        NO,       NO,    1 }
 }
 
-file "$(ADPOINTGREY)/db/pointGreyGigEProperty.template" 
+file "pointGreyGigEProperty.template" 
 { 
 pattern
 {    P,    R,    PORT,         PROPERTY,     N, PINI }

@@ -1,0 +1,11 @@
+
+.PHONY: vlib startupcmd
+
+###   ..... 
+
+STARTUPCMD:=$(E3_MODULE_SRC_PATH)/startup.cmd
+
+vlib: 
+	@echo "dlload $(E3_MODULES_INSTALL_LOCATION)/lib/linux-x86_64/libADPointGrey.so"  > $(E3_MODULE_SRC_PATH)/startup.cmd
+
+

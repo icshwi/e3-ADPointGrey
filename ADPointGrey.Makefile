@@ -36,6 +36,9 @@ ifneq ($(strip $(ADCORE_DEP_VERSION)),)
 ADCore_VERSION=$(ADCORE_DEP_VERSION)
 endif
 
+# Exclude linux-ppc64e6500
+EXCLUDE_ARCHS = linux-ppc64e6500
+
 
 SUPPORT:=pointGreySupport
 
@@ -62,10 +65,7 @@ DBDS += $(APPSRC)/pointGreySupport.dbd
 
 SOURCES += $(APPSRC)/pointGrey.cpp
 
-
 ## PointGreySupport
-
-
 HEADERS += $(SUPPORT)/AVIRecorder.h
 HEADERS += $(SUPPORT)/BusManager.h
 HEADERS += $(SUPPORT)/Camera.h
@@ -83,21 +83,58 @@ HEADERS += $(SUPPORT)/Utilities.h
 
 
 # We don't have LIB_INSTALLS, so will tackle later
-ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
-LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so
-LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
-LIB_INSTALLS    += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.8.3.1
+#ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+ifeq ($(T_A),linux-x86_64)
+VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
+VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
+VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
 endif
 
 
+SCRIPTS += startup.cmd
+
+# We have to convert all to db 
+TEMPLATES += $(wildcard $(APPDB)/*.db)
+
+# TEMPLATES += $(APPDB)/pointGrey.template
+# TEMPLATES += $(APPDB)/pointGreyProperty.template
+# TEMPLATES += $(APPDB)/pointGreyGigEProperty.template
+
+
+## This RULE should be used in case of inflating DB files 
+## db rule is the default in RULES_DB, so add the empty one
+## Please look at e3-mrfioc2 for example.
+
+EPICS_BASE_HOST_BIN = $(EPICS_BASE)/bin/$(EPICS_HOST_ARCH)
+MSI = $(EPICS_BASE_HOST_BIN)/msi
+
+USR_DBFLAGS += -I . -I ..
+USR_DBFLAGS += -I $(EPICS_BASE)/db
+USR_DBFLAGS += -I $(APPDB)
+
+# pointGrey.template includes ADCore.template
+#
+USR_DBFLAGS += -I $(E3_SITELIBS_PATH)/ADCore_$(ADCORE_DEP_VERSION)_db
+
+SUBS=$(wildcard $(APPDB)/*.substitutions)
+TMPS=$(wildcard $(APPDB)/*.template)
+
+db: $(SUBS) $(TMPS)
+
+$(SUBS):
+	@printf "Inflating database ... %44s >>> %40s \n" "$@" "$(basename $(@)).db"
+	@rm -f  $(basename $(@)).db.d  $(basename $(@)).db
+	@$(MSI) -D $(USR_DBFLAGS) -o $(basename $(@)).db -S $@  > $(basename $(@)).db.d
+	@$(MSI)    $(USR_DBFLAGS) -o $(basename $(@)).db -S $@
+
+$(TMPS):
+	@printf "Inflating database ... %44s >>> %40s \n" "$@" "$(basename $(@)).db"
+	@rm -f  $(basename $(@)).db.d  $(basename $(@)).db
+	@$(MSI) -D $(USR_DBFLAGS) -o $(basename $(@)).db $@  > $(basename $(@)).db.d
+	@$(MSI)    $(USR_DBFLAGS) -o $(basename $(@)).db $@
+
+
+.PHONY: db $(SUBS) $(TMPS)
 
 
 
-
-TEMPLATES += $(APPDB)/pointGrey.template
-TEMPLATES += $(APPDB)/pointGreyProperty.template
-TEMPLATES += $(APPDB)/pointGreyGigEProperty.template
-
-# db rule is the default in RULES_E3, so add the empty one
-
-db:
