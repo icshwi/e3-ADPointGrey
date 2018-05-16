@@ -40,6 +40,7 @@ endif
 EXCLUDE_ARCHS = linux-ppc64e6500
 
 
+
 SUPPORT:=pointGreySupport
 
 APP:=pointGreyApp
@@ -82,16 +83,21 @@ HEADERS += $(SUPPORT)/Utilities.h
 
 
 
-# We don't have LIB_INSTALLS, so will tackle later
-#ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
-ifeq ($(T_A),linux-x86_64)
-VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
-VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
-VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
-endif
+# # We don't have LIB_INSTALLS, so will tackle later
+# #ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
+# ifeq ($(T_A),linux-x86_64)
+
+# #USR_LDFLAGS += -Wl,-rpath=$(E3_MODULES_INSTALL_LOCATION)/lib/linux-x86_64
+# #USR_LDFLAGS += -L$(E3_MODULES_INSTALL_LOCATION)/lib/linux-x86_64
+# #USR_LDFLAGS += -lflycapture
+
+# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
+# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
+# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
+# endif
 
 
-SCRIPTS += startup.cmd
+#SCRIPTS += startup.cmd
 
 # We have to convert all to db 
 TEMPLATES += $(wildcard $(APPDB)/*.db)
