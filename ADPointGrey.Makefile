@@ -20,8 +20,7 @@
 # Date    : Tuesday, April 17 00:11:32 CEST 2018
 # version : 0.0.1 
 #
-# Please look at many other _module_.Makefile in e3-* repository
-# 
+
 
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -38,7 +37,6 @@ endif
 
 # Exclude linux-ppc64e6500
 EXCLUDE_ARCHS = linux-ppc64e6500
-
 
 SUPPORT:=pointGreySupport
 
@@ -84,15 +82,15 @@ HEADERS += $(SUPPORT)/Utilities.h
 
 # # We don't have LIB_INSTALLS, so will tackle later
 # #ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
-#ifeq ($(T_A),linux-x86_64)
+ifeq ($(T_A),linux-x86_64)
 USR_LDFLAGS += -Wl,--enable-new-dtags
 USR_LDFLAGS += -Wl,-rpath=$(E3_MODULES_VENDOR_LIBS_LOCATION)
 USR_LDFLAGS += -L$(E3_MODULES_VENDOR_LIBS_LOCATION)
 USR_LDFLAGS += -lflycapture
-#endif
+endif
 
-
-VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
+# According to its makefile
+VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.8.3.1
 VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
 VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
 
@@ -152,4 +150,4 @@ $(VENDOR_LIBS):
 	$(QUIET) $(SUDO) install -m 555 -d $(E3_MODULES_VENDOR_LIBS_LOCATION)/
 	$(QUIET) $(SUDO) install -m 555 $@ $(E3_MODULES_VENDOR_LIBS_LOCATION)/
 
-.PHONY: $(VENDOR_LIBS)
+.PHONY: $(VENDOR_LIBS) vlibs
