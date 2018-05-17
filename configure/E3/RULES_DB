@@ -9,7 +9,7 @@
 
 ###   ..... 
 
-db: conf vlib
+db: conf
 	install -m 644 $(TOP)/template/pointGreyPG1-ess.substitutions  $(E3_MODULE_SRC_PATH)/pointGreyApp/Db/
 	install -m 644 $(TOP)/template/pointGreyPG2-ess.substitutions  $(E3_MODULE_SRC_PATH)/pointGreyApp/Db/
 	$(QUIET) $(E3_MODULE_MAKE_CMDS) db

@@ -40,7 +40,6 @@ endif
 EXCLUDE_ARCHS = linux-ppc64e6500
 
 
-
 SUPPORT:=pointGreySupport
 
 APP:=pointGreyApp
@@ -85,16 +84,18 @@ HEADERS += $(SUPPORT)/Utilities.h
 
 # # We don't have LIB_INSTALLS, so will tackle later
 # #ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
-# ifeq ($(T_A),linux-x86_64)
+#ifeq ($(T_A),linux-x86_64)
+USR_LDFLAGS += -Wl,--enable-new-dtags
+USR_LDFLAGS += -Wl,-rpath=$(E3_MODULES_VENDOR_LIBS_LOCATION)
+USR_LDFLAGS += -L$(E3_MODULES_VENDOR_LIBS_LOCATION)
+USR_LDFLAGS += -lflycapture
+#endif
 
-# #USR_LDFLAGS += -Wl,-rpath=$(E3_MODULES_INSTALL_LOCATION)/lib/linux-x86_64
-# #USR_LDFLAGS += -L$(E3_MODULES_INSTALL_LOCATION)/lib/linux-x86_64
-# #USR_LDFLAGS += -lflycapture
 
-# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
-# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
-# #VLIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
-# endif
+VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2.9.3.43
+VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
+VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
+
 
 
 #SCRIPTS += startup.cmd
@@ -143,4 +144,12 @@ $(TMPS):
 .PHONY: db $(SUBS) $(TMPS)
 
 
+vlibs: $(VENDOR_LIBS)
 
+
+
+$(VENDOR_LIBS):
+	$(QUIET) $(SUDO) mkdir -p $(E3_MODULES_VENDOR_LIBS_LOCATION)/
+	$(QUIET) $(SUDO) install -m 555 $@ $(E3_MODULES_VENDOR_LIBS_LOCATION)/
+
+.PHONY: vlibs $(VENDOR_LIBS)

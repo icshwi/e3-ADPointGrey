@@ -29,7 +29,7 @@ default: help
 install: install_module install_links
 
 #install_module: uninstall 
-install_module: uninstall db
+install_module:  uninstall db
 	$(QUIET) $(SUDOBASH) '$(E3_MODULE_MAKE_CMDS) install'
 
 ## Uninstall : $(E3_MODULE_NAME)
@@ -39,7 +39,7 @@ uninstall: conf
 
 ## Build the EPICS Module : $(E3_MODULE_NAME)
 # Build always the Module with the EPICS_MODULES_TAG
-build: conf checkout
+build: conf checkout vlibs
 	$(QUIET) $(E3_MODULE_MAKE_CMDS) build
 
 
