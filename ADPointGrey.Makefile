@@ -97,7 +97,6 @@ VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so.2
 VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
 
 
-
 #SCRIPTS += startup.cmd
 
 # We have to convert all to db 
@@ -144,12 +143,13 @@ $(TMPS):
 .PHONY: db $(SUBS) $(TMPS)
 
 
+# Overwrite
+# RULES_VLIBS
+# CONFIG_E3
 vlibs: $(VENDOR_LIBS)
 
-
-
 $(VENDOR_LIBS):
-	$(QUIET) $(SUDO) mkdir -p $(E3_MODULES_VENDOR_LIBS_LOCATION)/
+	$(QUIET) $(SUDO) install -m 555 -d $(E3_MODULES_VENDOR_LIBS_LOCATION)/
 	$(QUIET) $(SUDO) install -m 555 $@ $(E3_MODULES_VENDOR_LIBS_LOCATION)/
 
-.PHONY: vlibs $(VENDOR_LIBS)
+.PHONY: $(VENDOR_LIBS)
