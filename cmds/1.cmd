@@ -1,13 +1,24 @@
-
-
-epicsEnvSet("TOP",${PWD})
-
-< ${TOP}/cmds/load_libs.cmd
-
-
-#dlload /home/utgard/e3/e3-ADPointGrey/ADPointGrey/pointGreySupport/os/linux-x86_64/libflycapture.so 
-
 require ADPointGrey,2.6.0
+require busy,1.7.0
+require sequencer,2.1.21
+require sscan,1339922
+require calc,3.7.0
+require autosave,5.9.0
+
+epicsEnvSet("IOC","iocPointGrey")
+epicsEnvSet("TOP",".")
+# epicsEnvSet("ADPOINTGREY","/home/utgard/epics_env/epics-modules/areaDetector/ADPointGrey/iocs/pointGreyIOC/../..")
+# epicsEnvSet("AREA_DETECTOR","/home/utgard/epics_env/epics-modules/areaDetector")
+# epicsEnvSet("EPICS_BASE","/home/utgard/epics_env/epics-base")
+# epicsEnvSet("EPICS_MODULES","/home/utgard/epics_env/epics-modules")
+# epicsEnvSet("ASYN","/home/utgard/epics_env/epics-modules/asyn")
+# epicsEnvSet("ADSUPPORT","/home/utgard/epics_env/epics-modules/areaDetector/ADSupport")
+# epicsEnvSet("ADCORE","/home/utgard/epics_env/epics-modules/areaDetector/ADCore")
+# epicsEnvSet("AUTOSAVE","/home/utgard/epics_env/epics-modules/autosave")
+# epicsEnvSet("BUSY","/home/utgard/epics_env/epics-modules/busy")
+# epicsEnvSet("CALC","/home/utgard/epics_env/epics-modules/calc")
+# epicsEnvSet("SNCSEQ","/home/utgard/epics_env/epics-modules/seq")
+# epicsEnvSet("SSCAN","/home/utgard/epics_env/epics-modules/sscan")
 
 
 
@@ -35,7 +46,7 @@ epicsEnvSet("NELEMENTS", "12592912")
 ###                 int maxBuffers, size_t maxMemory, int priority, int stackSize)
 epicsEnvSet("CAMERA_ID1", "17170681")
 epicsEnvSet("PREFIX1", "PG1:")
-#pointGreyConfig("PG1", $(CAMERA_ID1), 0x1, 0)
+pointGreyConfig("PG1", $(CAMERA_ID1), 0x1, 0)
 asynSetTraceIOMask(PG1, 0, 2)
 ###asynSetTraceMask($(PORT), 0, 0xFF)
 ###asynSetTraceFile($(PORT), 0, "asynTrace.out")
@@ -52,32 +63,35 @@ NDStdArraysConfigure("Image1", 5, 0, "PG1", 0, 0)
 dbLoadRecords("NDStdArrays.template", "P=$(PREFIX1),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=PG1,TYPE=Int16,FTVL=SHORT,NELEMENTS=$(NELEMENTS)")
 
 ### Load all other plugins using commonPlugins.cmd
-#< $(ADCORE)/iocBoot/commonPlugins.cmd
+
+epicsEnvSet("PREFIX", "${PREFIX1}")
+epicsEnvSet("PORT"  , "${PORT1}")
+< /home/iocuser/e3/e3-ADPointGrey/cmds/adpointgrey_commonPlugins.cmd 
 #set_requestfile_path("$(ADPOINTGREY)/pointGreyApp/Db")
 
-iocshCmd Example_commonPlugins.cmd
+#iocshCmd Example_commonPlugins.cmd
 #set_requestfile_path("$(ADPOINTGREY)/pointGreyApp/Db")
 
 
 iocInit()
 
-### save things every thirty seconds
-#create_monitor_set("auto_settings.req", 30,"P=$(PREFIX)")
+## save things every thirty seconds
+# create_monitor_set("auto_settings.req", 30,"P=$(PREFIX)")
 
-### Wait for enum callbacks to complete
+## Wait for enum callbacks to complete
 epicsThreadSleep(1.0)
 
-### Records with dynamic enums need to be processed again because the enum values are not available during iocInit.  
+## Records with dynamic enums need to be processed again because the enum values are not available during iocInit.  
 dbpf("$(PREFIX1)cam1:Format7Mode.PROC", "1")
 dbpf("$(PREFIX1)cam1:PixelFormat.PROC", "1")
 
-dbpf("$(PREFIX2)cam1:Format7Mode.PROC", "1")
-dbpf("$(PREFIX2)cam1:PixelFormat.PROC", "1")
-### Wait for callbacks on the property limits (DRVL, DRVH) to complete
+# dbpf("$(PREFIX2)cam1:Format7Mode.PROC", "1")
+# dbpf("$(PREFIX2)cam1:PixelFormat.PROC", "1")
+## Wait for callbacks on the property limits (DRVL, DRVH) to complete
 epicsThreadSleep(1.0)
 
-### Records that depend on the state of the dynamic enum records or property limits also need to be processed again
-### Other property records may need to be added to this list
+## Records that depend on the state of the dynamic enum records or property limits also need to be processed again
+## Other property records may need to be added to this list
 dbpf("$(PREFIX1)cam1:FrameRate.PROC", "1")
 dbpf("$(PREFIX1)cam1:FrameRateValAbs.PROC", "1")
 dbpf("$(PREFIX1)cam1:AcquireTime.PROC", "1")
