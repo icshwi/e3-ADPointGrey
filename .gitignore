@@ -16,3 +16,4 @@ core.*
 .cvsignore
 *_old/
 .\#*
+autosave/
