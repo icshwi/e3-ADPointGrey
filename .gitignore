@@ -4,7 +4,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-core.*
+core*
 #*
 .#*
 \#*
@@ -17,3 +17,4 @@ core.*
 *_old/
 .\#*
 autosave/
+

@@ -1,5 +1,6 @@
 #require ADPointGrey,2.6.0
 require ADPointGrey,develop
+require ADPluginEdge,develop
 require busy,1.7.0
 require sequencer,2.1.21
 require sscan,1339922
@@ -8,8 +9,9 @@ require autosave,5.9.0
 
 epicsEnvSet("IOC","iocPointGrey")
 epicsEnvSet("TOP",".")
-epicsEnvSet("ADPOINTGREY","/home/iocuser/e3/e3-ADPointGrey")
+epicsEnvSet("ADPOINTGREY","/home/iocuser/e3/e3-ADPointGrey/ADPointGrey")
 # epicsEnvSet("ADPOINTGREY","/home/utgard/epics_env/epics-modules/areaDetector/ADPointGrey/iocs/pointGreyIOC/../..")
+epicsEnvSet("ADPLUGINEDGE","/home/iocuser/e3/e3-ADPluginEdge/ADPluginEdge-dev")
 # epicsEnvSet("AREA_DETECTOR","/home/utgard/epics_env/epics-modules/areaDetector")
 # epicsEnvSet("EPICS_BASE","/home/utgard/epics_env/epics-base")
 # epicsEnvSet("EPICS_MODULES","/home/utgard/epics_env/epics-modules")
@@ -21,6 +23,7 @@ epicsEnvSet("ADCORE","/home/iocuser/e3/e3-ADCore/ADCore")
 epicsEnvSet("AUTOSAVE","/home/iocuser/e3/e3-autosave/autosave")
 # epicsEnvSet("BUSY","/home/utgard/epics_env/epics-modules/busy")
 # epicsEnvSet("CALC","/home/utgard/epics_env/epics-modules/calc")
+epicsEnvSet("CALC","/home/iocuser/e3/e3-calc")
 # epicsEnvSet("SNCSEQ","/home/utgard/epics_env/epics-modules/seq")
 # epicsEnvSet("SSCAN","/home/utgard/epics_env/epics-modules/sscan")
 
@@ -33,9 +36,9 @@ epicsEnvSet("PORT",   "PG1")
 ### Really large queue so we can stream to disk at full camera speed
 epicsEnvSet("QSIZE",  "2000")   
 ### The maximim image width; used for row profiles in the NDPluginStats plugin
-epicsEnvSet("XSIZE",  "1536")
+epicsEnvSet("XSIZE",  "2048")
 ### The maximim image height; used for column profiles in the NDPluginStats plugin
-epicsEnvSet("YSIZE",  "2048")
+epicsEnvSet("YSIZE",  "1556")
 ### The maximum number of time series points in the NDPluginStats plugin
 epicsEnvSet("NCHANS", "2048")
 ### The maximum number of frames buffered in the NDPluginCircularBuff plugin
@@ -49,9 +52,8 @@ epicsEnvSet("NELEMENTS", "12592912")
 ### pointGreyConfig(const char *portName, int cameraId, int traceMask, int memoryChannel,
 ###                 int maxBuffers, size_t maxMemory, int priority, int stackSize)
 epicsEnvSet("CAMERA_ID", "17170681")
-#epicsEnvSet("CAMERA_ID", "17280203") 
 epicsEnvSet("PREFIX", "PG1:")
-pointGreyConfig($(PORT), $(CAMERA_ID), 0x1, 0)
+pointGreyConfig("$(PORT)", $(CAMERA_ID), 0x1, 0)
 asynSetTraceIOMask($(PORT), 0, 2)
 ###asynSetTraceMask($(PORT), 0, 0xFF)
 ###asynSetTraceFile($(PORT), 0, "asynTrace.out")
@@ -74,7 +76,8 @@ epicsEnvSet("PORT"  , "${PORT}")
 #< /home/iocuser/e3/e3-ADPointGrey/cmds/adpointgrey_commonPlugins.cmd 
 #set_requestfile_path("$(ADPOINTGREY)/pointGreyApp/Db")
 
-< $(ADCORE)/iocBoot/EXAMPLE_commonPlugins.cmd
+#< $(ADCORE)/iocBoot/EXAMPLE_commonPlugins.cmd
+< $(ADCORE)/../cmds/commonPlugins.cmd
 set_requestfile_path("$(ADPOINTGREY)/pointGreyApp/Db")
 set_requestfile_path("$(ADPOINTGREY)/iocs/pointGreyIOC/iocBoot/iocPointGrey")
 

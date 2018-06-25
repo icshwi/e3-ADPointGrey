@@ -21,7 +21,7 @@ E3_MODULE_SRC_PATH:=$(EPICS_MODULE_NAME)-dev
 E3_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
 
 #export DEV_GIT_URL:="https://where your git repo"
-E3_MODULE_DEV_GITURL:="https://github.com/epics-modules/ADPointGrey"
+E3_MODULE_DEV_GITURL:="https://github.com/areaDetector/ADPointGrey"
 
 # The definitions shown below can also be placed in an untracked CONFIG_MODULE_DEV.local
 -include $(TOP)/configure/CONFIG_MODULE_DEV.local

@@ -133,13 +133,13 @@ dbLoadRecords("NDAttributeN.template", "P=$(PREFIX),R=Attr1:8:,  PORT=ATTR1,ADDR
 NDFFTConfigure("FFT1", 3, 0, "$(PORT)", 0, 0, 0, 0, 0, 5)
 dbLoadRecords("NDFFT.template", "P=$(PREFIX), R=FFT1:, PORT=FFT1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT), NAME=FFT1, NCHANS=$(XSIZE)")
 
-# set_requestfile_path("./")
-# set_requestfile_path("$(ADCORE)/ADApp/Db")
-# set_requestfile_path("$(ADCORE)/iocBoot")
-# set_savefile_path("./autosave")
-# set_pass0_restoreFile("auto_settings.sav")
-# set_pass1_restoreFile("auto_settings.sav")
-# save_restoreSet_status_prefix("$(PREFIX)")
+set_requestfile_path("./")
+set_requestfile_path("$(ADCORE)/ADApp/Db")
+set_requestfile_path("$(ADCORE)/iocBoot")
+set_savefile_path("./autosave")
+set_pass0_restoreFile("auto_settings.sav")
+set_pass1_restoreFile("auto_settings.sav")
+save_restoreSet_status_prefix("$(PREFIX)")
 # dbLoadRecords("$(AUTOSAVE)/asApp/Db/save_restoreStatus.db", "P=$(PREFIX)")
 
 # Optional: load NDPluginPva plugin
