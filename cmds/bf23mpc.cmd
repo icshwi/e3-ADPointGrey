@@ -6,7 +6,7 @@ require busy,1.7.0
 #require autosave,5.9.0
 
 
-epicsEnvSet("TOP", "$(E3_CMD_TOP)")
+epicsEnvSet("CMD_TOP", "$(E3_CMD_TOP)")
 epicsEnvSet("IOC", "iocPointGrey")
 
 epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES","64000000")
@@ -55,7 +55,7 @@ dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,
 
 
 # Load all other plugins using commonPlugins.cmd
-< $(TOP)/ADCORE_commonPlugins.cmd
+< $(CMD_TOP)/bf23mpc_commonPlugins.cmd
 
 iocInit()
 
