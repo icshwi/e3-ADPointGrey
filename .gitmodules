@@ -1,4 +1,4 @@
 [submodule "ADPointGrey"]
 	path = ADPointGrey
 	url = https://github.com/areaDetector/ADPointGrey
-	ignore = all
+	ignore = dirty
