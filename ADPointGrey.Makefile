@@ -17,8 +17,8 @@
 # 
 # Author  : Jeong Han Lee
 # email   : jeonghan.lee@gmail.com
-# Date    : Thursday, September 13 23:08:08 CEST 2018
-# version : 0.0.2
+# Date    : Saturday, September 29 16:44:14 CEST 2018
+# version : 0.0.3
 #
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -85,10 +85,10 @@ HEADERS += $(SUPPORT)/Utilities.h
 # # We don't have LIB_INSTALLS, so will tackle later
 # #ifeq (linux-x86_64, $(findstring linux-x86_64, $(T_A)))
 ifeq ($(T_A),linux-x86_64)
-USR_LDFLAGS += -Wl,--enable-new-dtags
-USR_LDFLAGS += -Wl,-rpath=$(E3_MODULES_VENDOR_LIBS_LOCATION)
-USR_LDFLAGS += -L$(E3_MODULES_VENDOR_LIBS_LOCATION)
-USR_LDFLAGS += -lflycapture
+USR_LDFLAGS  += -Wl,--enable-new-dtags
+USR_LDFLAGS  += -Wl,-rpath=$(E3_MODULES_VENDOR_LIBS_LOCATION)
+USR_LDFLAGS  += -L$(E3_MODULES_VENDOR_LIBS_LOCATION)
+LIB_SYS_LIBS += flycapture
 endif
 
 # According to its makefile
