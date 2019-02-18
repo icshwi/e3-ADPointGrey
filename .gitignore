@@ -17,4 +17,6 @@ core*
 *_old/
 .\#*
 autosave/
+*.list
+
 
