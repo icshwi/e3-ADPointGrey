@@ -1,8 +1,8 @@
 require ADPointGrey,2.7.0
 require busy,1.7.0
-#require sequencer,2.1.21
+require sequencer,2.2.6
 #require sscan,1339922
-#require calc,3.7.1
+require calc,3.7.1
 #require autosave,5.9.0
 
 
