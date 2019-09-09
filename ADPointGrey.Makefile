@@ -126,7 +126,7 @@ USR_DBFLAGS += -I $(APPDB)
 
 # pointGrey.template includes ADCore.template
 #
-USR_DBFLAGS += -I $(E3_SITELIBS_PATH)/ADCore_$(ADCORE_DEP_VERSION)_db
+USR_DBFLAGS += -I $(E3_SITEMODS_PATH)/ADCore/$(ADCORE_DEP_VERSION)/db
 
 SUBS=$(wildcard $(APPDB)/*.substitutions)
 TMPS=$(wildcard $(APPDB)/*.template)
