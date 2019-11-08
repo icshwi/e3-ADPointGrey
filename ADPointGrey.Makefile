@@ -74,19 +74,19 @@ DBDS += $(APPSRC)/pointGreySupport.dbd
 SOURCES += $(APPSRC)/pointGrey.cpp
 
 ## PointGreySupport
-HEADERS += $(SUPPORT)/AVIRecorder.h
-HEADERS += $(SUPPORT)/BusManager.h
-HEADERS += $(SUPPORT)/Camera.h
-HEADERS += $(SUPPORT)/CameraBase.h
-HEADERS += $(SUPPORT)/Error.h
-HEADERS += $(SUPPORT)/FlyCapture2.h
-HEADERS += $(SUPPORT)/FlyCapture2Defs.h
-HEADERS += $(SUPPORT)/FlyCapture2Platform.h
-HEADERS += $(SUPPORT)/GigECamera.h
-HEADERS += $(SUPPORT)/Image.h
-HEADERS += $(SUPPORT)/ImageStatistics.h
-HEADERS += $(SUPPORT)/TopologyNode.h
-HEADERS += $(SUPPORT)/Utilities.h
+HEADERS += $(SUPPORT)/os/Linux/AVIRecorder.h
+HEADERS += $(SUPPORT)/os/Linux/BusManager.h
+HEADERS += $(SUPPORT)/os/Linux/Camera.h
+HEADERS += $(SUPPORT)/os/Linux/CameraBase.h
+HEADERS += $(SUPPORT)/os/Linux/Error.h
+HEADERS += $(SUPPORT)/os/Linux/FlyCapture2Defs.h
+HEADERS += $(SUPPORT)/os/Linux/FlyCapture2.h
+HEADERS += $(SUPPORT)/os/Linux/FlyCapture2Platform.h
+HEADERS += $(SUPPORT)/os/Linux/GigECamera.h
+HEADERS += $(SUPPORT)/os/Linux/Image.h
+HEADERS += $(SUPPORT)/os/Linux/ImageStatistics.h
+HEADERS += $(SUPPORT)/os/Linux/TopologyNode.h
+HEADERS += $(SUPPORT)/os/Linux/Utilities.h
 
 
 
@@ -109,10 +109,8 @@ VENDOR_LIBS += $(SUPPORT)/os/linux-x86_64/libflycapture.so
 
 # We have to convert all to db 
 TEMPLATES += $(wildcard $(APPDB)/*.db)
+TEMPLATES += $(wildcard $(APPDB)/*.req)
 
-# TEMPLATES += $(APPDB)/pointGrey.template
-# TEMPLATES += $(APPDB)/pointGreyProperty.template
-# TEMPLATES += $(APPDB)/pointGreyGigEProperty.template
 
 
 ## This RULE should be used in case of inflating DB files 
